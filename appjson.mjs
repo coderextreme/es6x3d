@@ -49,7 +49,7 @@ var x3d = new X3D({
 console.log("Converted to XML", x3d.toXMLNode());
 // console.log("Expanded", x3d.deepExpand().toXMLNode());
 
-var data = fs.readFileSync('C:/Users/coderextreme/X3DJSONLD/src/main/data/Box.json');
+var data = fs.readFileSync('Box.json');
 var json = JSON.parse(data.toString());
 var x = new X3D(json);
 x.fromJSON(json["X3D"]);
