@@ -214,50 +214,50 @@ class ClassPrinter(object):
                     str +=     "        }\n"
         except KeyError:
             pass
-        if field.get('type') == 'SFVec2d':
-                    str += "        if ("+fld+" == null || "+fld+".length !== 2 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'SFVec2f':
-                    str += "        if ("+fld+" == null || "+fld+".length !== 2 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'SFVec3d':
-                    str += "        if ("+fld+" == null || "+fld+".length !== 3 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'SFVec3f':
-                    str += "        if ("+fld+" == null || "+fld+".length !== 3 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'SFColor':
-                    str += "        if ("+fld+" == null || "+fld+".length !== 3 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'SFRotation':
-                    str += "        if ("+fld+" == null || "+fld+".length !== 4 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'SFColorRGBA':
-                    str += "        if ("+fld+" == null || "+fld+".length !== 4 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'MFVec2d':
-                    str += "        if ("+fld+" == null || "+fld+".length % 2 !== 0 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'MFVec2f':
-                    str += "        if ("+fld+" == null || "+fld+".length % 2 !== 0 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'MFVec3d':
-                    str += "        if ("+fld+" == null || "+fld+".length % 3 !== 3 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
-        elif field.get('type') == 'MFVec3f':
-                    str += "        if ("+fld+" == null || "+fld+".length % 3 !== 3 ) {\n"
-                    str += "            return undefined;\n"
-                    str += "        }\n"
+#        if field.get('type') == 'SFVec2d':
+#                    str += "        if ("+fld+" == null || "+fld+".length !== 2 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'SFVec2f':
+#                    str += "        if ("+fld+" == null || "+fld+".length !== 2 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'SFVec3d':
+#                    str += "        if ("+fld+" == null || "+fld+".length !== 3 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'SFVec3f':
+#                    str += "        if ("+fld+" == null || "+fld+".length !== 3 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'SFColor':
+#                    str += "        if ("+fld+" == null || "+fld+".length !== 3 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'SFRotation':
+#                    str += "        if ("+fld+" == null || "+fld+".length !== 4 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'SFColorRGBA':
+#                    str += "        if ("+fld+" == null || "+fld+".length !== 4 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'MFVec2d':
+#                    str += "        if ("+fld+" == null || "+fld+".length % 2 !== 0 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'MFVec2f':
+#                    str += "        if ("+fld+" == null || "+fld+".length % 2 !== 0 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'MFVec3d':
+#                    str += "        if ("+fld+" == null || "+fld+".length % 3 !== 3 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
+#        elif field.get('type') == 'MFVec3f':
+#                    str += "        if ("+fld+" == null || "+fld+".length % 3 !== 3 ) {\n"
+#                    str += "            return undefined;\n"
+#                    str += "        }\n"
         return str
 
     def setter(self, field, name):
@@ -370,10 +370,13 @@ class ClassPrinter(object):
         strjoin = ", ".join(self.parents)
         if strjoin != "" and not strjoin.startswith("xs:") and strjoin != "SFString":
             str += " extends "+strjoin
-        elif self.name.startswith("SF") or self.name.startswith("MF"):
+        elif self.name.startswith("MF"):
             str += " extends Array"
         str += " {\n"
-        if self.name.startswith("SF") or self.name.startswith("MF"):
+        if self.name.startswith("SF"):
+            str += "    constructor(value_ = null) {\n"
+            str += "        this.__value = value_;\n"
+        elif self.name.startswith("MF"):
             str += "    constructor(value_ = null) {\n"
             str += "        super(value_);\n"
             str += "        this.__value = value_;\n"
