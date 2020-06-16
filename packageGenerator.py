@@ -210,7 +210,7 @@ class ClassPrinter(object):
                         str += "        } else if (" + "'"+enum.get('value')+"'" + ' === '+fld+') {\n'
                 if efound == 1:
                     str +=     "        } else {\n"
-                    str +=     "            return undefined;\n"
+                    # str +=     "            return undefined;\n"
                     str +=     "        }\n"
         except KeyError:
             pass
