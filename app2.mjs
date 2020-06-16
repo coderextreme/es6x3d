@@ -1,10 +1,9 @@
 "use strict"
 
-import { X3D } from './x3d.mjs';
-import { head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance } from './x3d.mjs';
-import { MFNode, SFColor, SFVec3f, SFRotation } from './x3d.mjs';
+import { X3D, head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance,
+MFNode, SFColor, SFVec3f, SFRotation } from './x3d.mjs';
 
-var x3d = new X3D({
+let x3d = new X3D({
 	head : new head({
 		meta : [
 			new meta({

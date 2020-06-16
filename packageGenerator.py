@@ -150,10 +150,14 @@ class ClassPrinter(object):
         str += "        } else if (typeof "+spf+" !== 'undefined' && typeof "+spf+".toXMLNode === 'function') {\n"
         str += "                str += "+spf+".toXMLNode('"+fld+"');\n"
         str += "        } else if (typeof "+spf+" === 'string') {\n"
-        str += "            str += ' "+fld+"=\"'+"+spf+"+'\"';\n"
+        str += "            if (typeof "+spf+" !== 'undefined') {\n"
+        str += "                str += ' "+fld+"=\"'+"+spf+"+'\"';\n"
+        str += "            }\n"
         str += "        } else if (Array.isArray( "+spf+")) {\n"
         str += "            if (typeof "+spf+"[0].toXMLNode !== 'function') {\n"
+        str += "                if (typeof "+spf+" !== 'undefined') {\n"
         str += "                    str += ' "+fld+"=\"'+"+spf+".join(' ')+'\"';\n"
+        str += "                }\n"
         str += "            } else {\n"
         str += "                for (let i in "+spf+") {\n"
         str += "                    if (typeof "+spf+"[i].toXMLNode === 'function') {\n"
@@ -161,7 +165,7 @@ class ClassPrinter(object):
         str += "                    }\n"
         str += "                }\n"
         str += "            }\n"
-        str += "        } else {\n"
+        str += "        } else if (typeof "+spf+" !== 'undefined') {\n"
         str += "            str += ' "+fld+"=\"'+"+spf+"+'\"';\n"
         str += "        }\n"
         return str
@@ -186,10 +190,10 @@ class ClassPrinter(object):
             try:
                 if field.get('type').startswith("MF") or field.get('type') == "SFColor" or field.get('type') == "SFVec2f" or field.get('type') == "SFVec3f":
                     str += "        if ("+fld+" == null || "+fld+".length <= 0 || Math."+k[0:3] +"("+fld+") " + v + " " + field.get(k) + ") {\n"
-                    str += "            return null;\n\t}\n"
+                    str += "            return undefined;\n\t}\n"
                 else:
                     str += "        if ("+fld+" == null || "+fld+" " + v + " " + field.get(k) + ") {\n"
-                    str += "            return null;\n\t}\n"
+                    str += "            return undefined;\n\t}\n"
             
             except:
                 pass
@@ -206,10 +210,54 @@ class ClassPrinter(object):
                         str += "        } else if (" + "'"+enum.get('value')+"'" + ' === '+fld+') {\n'
                 if efound == 1:
                     str +=     "        } else {\n"
-                    str +=     "            return null;\n"
+                    str +=     "            return undefined;\n"
                     str +=     "        }\n"
         except KeyError:
             pass
+        if field.get('type') == 'SFVec2d':
+                    str += "        if ("+fld+" == null || "+fld+".length !== 2 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'SFVec2f':
+                    str += "        if ("+fld+" == null || "+fld+".length !== 2 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'SFVec3d':
+                    str += "        if ("+fld+" == null || "+fld+".length !== 3 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'SFVec3f':
+                    str += "        if ("+fld+" == null || "+fld+".length !== 3 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'SFColor':
+                    str += "        if ("+fld+" == null || "+fld+".length !== 3 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'SFRotation':
+                    str += "        if ("+fld+" == null || "+fld+".length !== 4 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'SFColorRGBA':
+                    str += "        if ("+fld+" == null || "+fld+".length !== 4 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'MFVec2d':
+                    str += "        if ("+fld+" == null || "+fld+".length % 2 !== 0 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'MFVec2f':
+                    str += "        if ("+fld+" == null || "+fld+".length % 2 !== 0 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'MFVec3d':
+                    str += "        if ("+fld+" == null || "+fld+".length % 3 !== 3 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
+        elif field.get('type') == 'MFVec3f':
+                    str += "        if ("+fld+" == null || "+fld+".length % 3 !== 3 ) {\n"
+                    str += "            return undefined;\n"
+                    str += "        }\n"
         return str
 
     def setter(self, field, name):
@@ -400,7 +448,9 @@ class ClassPrinter(object):
             str += "            }\n"
             str += "        }\n"
         elif self.name.startswith("SF") or self.name.startswith("MF"):
-            str += "        str += ' '+attrName+'='+'\"'+this.__value+'\"';\n"
+            str += "        if (typeof this.__value !== 'undefined') {\n"
+            str += "            str += ' '+attrName+'='+'\"'+this.__value+'\"';\n"
+            str += "        }\n"
         else:
             str += "        str += '<"+self.name+"'\n"
 
