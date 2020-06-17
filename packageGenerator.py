@@ -209,8 +209,10 @@ class ClassPrinter(object):
                     else:
                         str += "        } else if (" + "'"+enum.get('value')+"'" + ' === '+fld+') {\n'
                 if efound == 1:
-                    str +=     "        } else {\n"
-                    # str +=     "            return undefined;\n"
+                    if enum.get('use') == 'required':
+                        str +=     "        } else if (" + "'"+enum.get('use')+"'" +" === 'required') {\n"
+                        str +=     "            console.error('"+field.get('name')+" required, but does not legal value (undefined?)');\n"
+                        str +=     "            return undefined;\n"
                     str +=     "        }\n"
         except KeyError:
             pass
