@@ -9,13 +9,13 @@ Run it like:
 python packageGenerator.py
 ```
 
-That python processs creates x3d.mjs and x3d.mjs is the ECMAScript 6 module
+That python processs creates x3d.js and x3d.js is the ECMAScript 6 module
 
 No current tests
 
 Run it like:
 ```
-node app.mjs
+node app.js
 
 ```
 Currently XML generation is not complete.  Contributions welcome.

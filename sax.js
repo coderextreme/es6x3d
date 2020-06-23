@@ -1,8 +1,8 @@
 "use strict"
 import fs from 'fs';
 
-import { unit, LayerSet, X3D, head, IS, component, meta, Scene, WorldInfo, NavigationInfo, Background, SpotLight, PointLight, Viewpoint, Group, HAnimHumanoid, HAnimJoint,  HAnimSegment, HAnimSite, Transform, Shape, IndexedLineSet, Coordinate, Color, HAnimDisplacer, Appearance, Material, ImageTexture, TextureTransform, IndexedFaceSet, TextureCoordinate, TimeSensor, OrientationInterpolator, PositionInterpolator, ROUTE, ScalarInterpolator, field, Sphere, ProtoInterface, connect, ProtoBody, ProtoDeclare, Cylinder, fieldValue, ProtoInstance, Box  } from './x3d.mjs';
-import classes from './classes.mjs';
+import { unit, LayerSet, X3D, head, IS, component, meta, Scene, WorldInfo, NavigationInfo, Background, SpotLight, PointLight, Viewpoint, Group, HAnimHumanoid, HAnimJoint,  HAnimSegment, HAnimSite, Transform, Shape, IndexedLineSet, Coordinate, Color, HAnimDisplacer, Appearance, Material, ImageTexture, TextureTransform, IndexedFaceSet, TextureCoordinate, TimeSensor, OrientationInterpolator, PositionInterpolator, ROUTE, ScalarInterpolator, field, Sphere, ProtoInterface, connect, ProtoBody, ProtoDeclare, Cylinder, fieldValue, ProtoInstance, Box  } from './x3d.js';
+import classes from './classes.js';
 
 function zapEmpty(root) {
 	if (typeof root === 'boolean' || typeof root === 'string' || typeof root === 'number') {

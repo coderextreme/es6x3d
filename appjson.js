@@ -2,9 +2,9 @@
 
 import fs from 'fs'
 
-import { X3D } from './x3d.mjs';
-import { head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance } from './x3d.mjs';
-import { MFNode, SFColor, SFVec3f, SFRotation } from './x3d.mjs';
+import { X3D } from './x3d.js';
+import { head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance } from './x3d.js';
+import { MFNode, SFColor, SFVec3f, SFRotation } from './x3d.js';
 
 var x3d = new X3D({
 	head : new head({
@@ -46,11 +46,11 @@ var x3d = new X3D({
 	})
 });
 
-console.log(x3d.toXMLNode());
-// console.log(x3d.deepExpand().toXMLNode());
+console.log("Converted to XML", x3d.toXMLNode());
+// console.log("Expanded", x3d.deepExpand().toXMLNode());
 
-// var data = fs.readFileSync('Box.json');
-// var json = JSON.parse(data.toString());
-// var x = new X3D({});
-// x.fromJSON(json["X3D"]);
-// console.log(x.toXMLNode())
+var data = fs.readFileSync('Box.json');
+var json = JSON.parse(data.toString());
+var x = new X3D(json);
+x.fromJSON(json["X3D"]);
+console.log("Output XML from JSON", x.toXMLNode())
