@@ -8,7 +8,6 @@ import { MFNode, SFColor, SFVec3f, SFString, SFNode, SFRotation } from './x3d.js
 
 let x3d = new X3D({
 	version: new SFString("4.0"),
-	encoding: new SFString("UTF-8"),
 	profile: new SFString("Immersive"),
 	head : new SFNode(new head({
 		meta : new MFNode([

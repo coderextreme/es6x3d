@@ -8,7 +8,6 @@ import { MFNode, SFString, SFColor, SFVec3f, SFRotation } from './fromNodeX3d.js
 
 var x3d = new X3D({
 	version : "4.0",
-	encoding: "UTF-8",
 	profile: "Immersive",
 	head : new head({
 		meta : [
