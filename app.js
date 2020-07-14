@@ -44,10 +44,3 @@ var x3d = new X3D({
 
 // console.log(JSON.stringify(x3d, null, 2));
 console.log(x3d.toXMLNode());
-// console.log(x3d.deepExpand().toXMLNode());
-
-// var data = fs.readFileSync('Box.json');
-// var json = JSON.parse(data.toString());
-// var x = new X3D({});
-// x.fromJSON(json["X3D"]);
-// console.log(x.toXMLNode())
