@@ -2,40 +2,36 @@
 
 import fs from 'fs'
 
-import { X3D } from './x3d.js';
-import { head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance } from './x3d.js';
-import { MFNode, SFColor, SFVec3f, SFRotation } from './x3d.js';
+import { meta, head, Scene, X3D,  Transform, Group, Material, Shape, Box, Appearance } from './x3d.js';
+import { MFNode, SFColor, SFVec3f, SFString, SFNode, SFRotation } from './x3d.js';
+
 
 var x3d = new X3D({
-	head : new head({
-		meta : [
+	head : new SFNode(new head({
+		meta : new MFNode([
 			new meta({
-				name : "John W",
-				content : "Carlson, I"
+				name : new SFString("John W"),
+				content : new SFString("Carlson, I")
 			}),
 			new meta({
-				name : "John A",
-				content : "Carlson, II"
+				name : new SFString("John A"),
+				content : new SFString("Carlson, II")
 			}),
 			new meta({
-				name : "John R",
-				content : "Carlson, III"
+				name : new SFString("John R"),
+				content : new SFString("Carlson, III")
 			})
-		]
-	}),
-	Scene : new Scene({
+		])
+	})),
+	Scene : new SFNode(new Scene({
 		children : new MFNode([
-			new Group({
-				children : new MFNode([
-					new Shape({
-						appearance : new Appearance({
-							material : new Material({
-								diffuseColor : new SFColor([1, 0, 0])
-							})
-						}),
-						geometry : new Box({})
-					})
-				])
+			new Shape({
+				appearance : new SFNode(new Appearance({
+					material : new SFNode(new Material({
+						diffuseColor : new SFColor([1, 0, 0])
+					}))
+				})),
+				geometry : new SFNode(new Box({}))
 			}),
 			new Transform({
 				translation : new SFVec3f([1, 2, 3]),
@@ -43,9 +39,10 @@ var x3d = new X3D({
 				rotation: new SFRotation([7, 8, 9, 3.14])
 			})
 		])
-	})
+	}))
 });
 
+// console.log(JSON.stringify(x3d, null, 2));
 console.log(x3d.toXMLNode());
 // console.log(x3d.deepExpand().toXMLNode());
 
