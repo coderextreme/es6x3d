@@ -173,6 +173,13 @@ class ClassPrinter(object):
     def initialize(self, field, name):
         str = ""
         fld = self.getField(name)
+        str += self.settervalidate(field, 'kwargs["', name, '"]')
+        return str
+
+    def settervalidate(self, field, head, name, tail):
+        fld = self.getField(name)
+        str = ""
+        str += '            var xxx'+fld+'  = ' + head + fld + tail + '// || ' + self.getDefault(field) + ";\n"
         try:
             # acceptabletypes = field.get("acceptableNodeTypes").split("|")
             if acceptabletypes is None:
@@ -183,23 +190,15 @@ class ClassPrinter(object):
             str += "        if ("
             ats = []
             for at in acceptabletypes:
-                ats.append('kwargs["' + fld + '"]'  + " instanceof " + at)
+                if at != "#comment" and at != "#cdata":
+                    ats.append(head + fld + tail  + " instanceof " + at)
+                else:
+                    ats.append("true")
             str += (" || ".join(ats))
             str += ") {\n"
         else:
             str += "        if (true) {\n"
-        str += '            var xxx'+fld+'  = ' + 'kwargs["' + fld + '"] || ' + self.getDefault(field) + ";\n"
         #  if fld != "accessType":  # hack for now, no check on null accessTypes
-        str += self.settervalidate(field, fld)
-        str += '            '+self.private(fld)+' = xxx'+fld+';\n'
-        str += '        } else if (typeof kwargs["' + fld + '"] !== "undefined") {\n'
-        str += '           console.log("'+name+' with value"'+ ', kwargs["' + fld + '"]'+', " should be of acceptable type(s) '+(" ".join(acceptabletypes))+'");\n'
-        str += '        }\n'
-        return str
-
-    def settervalidate(self, field, name):
-        fld = self.getField(name)
-        str = ""
         rel = { 'minInclusive':" < ",
                  'maxInclusive':" > ",
                  'minExclusive':" <= ",
@@ -234,50 +233,13 @@ class ClassPrinter(object):
                     str +=     "        }\n"
         except KeyError:
             pass
-#        if field.get('type') == 'SFVec2d':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length !== 2 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'SFVec2f':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length !== 2 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'SFVec3d':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length !== 3 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'SFVec3f':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length !== 3 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'SFColor':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length !== 3 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'SFRotation':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length !== 4 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'SFColorRGBA':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length !== 4 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'MFVec2d':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length % 2 !== 0 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'MFVec2f':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length % 2 !== 0 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'MFVec3d':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length % 3 !== 3 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
-#        elif field.get('type') == 'MFVec3f':
-#                    str += "        if (xxx"+fld+" == null || xxx"+fld+".length % 3 !== 3 ) {\n"
-#                    str += "            return undefined;\n"
-#                    str += "        }\n"
+        str += '        } else if (typeof ' + head + fld + tail + ' !== "undefined") {\n'
+        str += '            console.log("'+name+' with value"'+ ', ' + head + fld + tail +', " should be of acceptable type(s) '+(" ".join(acceptabletypes))+'");\n'
+        str += '            return undefined;\n'
+        str += '        }\n'
+        str += '        if (typeof xxx' + fld + ' !== "undefined") {\n'
+        str += '            '+self.private(fld)+' = xxx'+fld+';\n'
+        str += '        }\n'
         return str
 
     def setter(self, field, name):
@@ -290,7 +252,7 @@ class ClassPrinter(object):
 
         if fld.startswith("SF") or fld.startswith("MF"):
             str += '    set ' + fld +'(value = ' + self.getDefault(field) +  ") {\n"
-            str += self.settervalidate(field, "value")
+            str += self.settervalidate(field, "", "value", "")
             str += '        '+self.private(fld)+' = [value];\n\t}\n'
 
         if not name.startswith("add") and not name.startswith("remove"):
@@ -299,7 +261,7 @@ class ClassPrinter(object):
             else:
                 functionName = self.getFunctionName(name)
             str += '    set ' + functionName +'(' + fld +' = ' + self.getDefault(field) +  ") {\n"
-            str += self.settervalidate(field, name)
+            str += self.settervalidate(field, "", name, "")
             str += '        '+self.private(fld)+' = ['+fld+"];\n"
             str += "        return this;\n\t}\n"
 
@@ -309,7 +271,7 @@ class ClassPrinter(object):
             else:
                 functionName = self.getFunctionName("add"+name)
             str += '    ' + functionName +'(' + fld +' = ' + self.getDefault(field) +  ") {\n"
-            str += self.settervalidate(field, name)
+            str += self.settervalidate(field, "",  name, "")
             str += "        if ("+self.private(fld)+" == null) {\n"
             str += '            '+self.private(fld)+' =  [];\n'
             str += '        }\n'
