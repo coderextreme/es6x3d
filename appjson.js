@@ -4,9 +4,12 @@ import fs from 'fs'
 
 import { X3D } from './fromNodeX3d.js';
 import { head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance } from './fromNodeX3d.js';
-import { MFNode, SFColor, SFVec3f, SFRotation } from './fromNodeX3d.js';
+import { MFNode, SFString, SFColor, SFVec3f, SFRotation } from './fromNodeX3d.js';
 
 var x3d = new X3D({
+	version : "4.0",
+	encoding: "UTF-8",
+	profile: "Immersive",
 	head : new head({
 		meta : [
 			new meta({
