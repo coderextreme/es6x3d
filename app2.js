@@ -4,6 +4,7 @@ import { X3D, head, meta, Scene, Transform, Group, Material, Shape, Box, Appeara
 MFNode, SFBool, SFNode, SFString, SFColor, SFVec3f, SFRotation } from './x3d.js';
 
 let x3d = new X3D({
+	version: new SFString("4.0"),
 	head : new SFNode(new head({
 		meta : new MFNode([
 			new meta({
