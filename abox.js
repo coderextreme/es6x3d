@@ -1,8 +1,6 @@
 'use strict';
 import fs from 'fs';
 import { SFBool, SFVec3f, MFNode, head, SFString, meta, Box, connect, Cylinder, field, fieldValue, IS, ProtoBody, ProtoDeclare, ProtoInstance, ProtoInterface, Scene, Shape, Sphere, Transform, X3D } from './x3d.js';
-
-
 var X3D0 =  new X3D({
 
       profile : new SFString("Immersive"),
@@ -53,7 +51,7 @@ var X3D0 =  new X3D({
 
               bboxCenter : new SFVec3f([0,0,0]),
               bboxSize : new SFVec3f([-1,-1,-1]),
-              iS : (new IS({
+              IS : (new IS({
 
                 connect : (new connect({
 
@@ -84,7 +82,7 @@ var X3D0 =  new X3D({
               children : (new ProtoInstance({
 
                 name : new SFString("anyShape"),
-                iS : (new IS({
+                IS : (new IS({
 
                   connect : (new connect({
 
