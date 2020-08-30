@@ -23,6 +23,7 @@ class ClassPrinter(object):
             "inputOutput": self.settergetter,
             "outputOnly": self.getter,
             "toXMLNode": self.toXMLNode,
+            "toThreeJS": self.toThreeJS,
             None: self.getter
         }
         self.node = node
@@ -140,6 +141,25 @@ class ClassPrinter(object):
                 str += "null"
         return str
 
+
+    def toThreeJS(self, field, name):
+        str = ''
+        fld = self.getField(name)
+
+        spf = self.private(fld)
+        str += "        if (typeof "+spf+" !== 'undefined' && typeof "+spf+".toThreeJS === 'function') {\n"
+        str += "                str += "+spf+".toThreeJS('"+fld+"');\n"
+        if fld in ['Scene']:
+            str += '            str += "parent = scene;"\n'
+            str += '            str += "child = THREE.Group();"\n'
+            str += '            str += "parent.add( child );"\n'
+            str += '            str += "parent = child;"\n'
+        elif fld in ['Group', 'Transform']:
+            str += '            str += "child = THREE.Group();"\n'
+            str += '            str += "parent.add( child );"\n'
+            str += '            str += "parent = child;"\n'
+        str += "        }\n"
+        return str
 
     def toXMLNode(self, field, name):
         str = ''
@@ -421,6 +441,55 @@ class ClassPrinter(object):
 
         if self.name in [ "TouchSensor", "NavigationInfo", "Viewpoint", "OrientationInterpolator", "PositionInterpolator", "DirectionalLight", "Group", "Transform", "Shape", "Material", "Script", "ProtoInstance", "ShaderPart" ]:
             str += self.setUpAloneField("IS", 'MFNode', "inputOutput")
+
+        str += "    toThreeJS(attrName) {\n"
+        str += "        var str = '';\n"
+
+        if self.name.startswith("MF"):
+            str += 'str += "child = THREE.Group();"\n'
+            str += 'str += "parent.add( child );"\n'
+            str += 'str += "parent = child;"\n'
+        elif self.name.startswith("SFNode"):
+            pass
+        elif self.name.startswith("SF"):
+            pass
+        else:
+            if self.name == "X3D":
+                str += '''
+                var str = `
+                var scene = THREE.Scene();
+                var child;
+                var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+                var renderer = new THREE.WebGLRenderer();
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                document.body.appendChild( renderer.domElement );
+
+                `;
+                '''
+            elif self.name in ['Scene']:
+                str += 'str += "child = THREE.Group();"\n'
+                str += 'str += "parent.add( child );"\n'
+                str += 'str += "parent = child;"\n'
+            elif self.name in ['Group', 'Transform']:
+                str += 'str += "child = THREE.Group();"\n'
+                str += 'str += "parent.add( child );"\n'
+                str += 'str += "parent = child;"\n'
+            fields = self.node.iter("field")
+            for field in fields:
+                str += self.setUpField(field, "toThreeJS")
+            if self.name == "X3D":
+                str += '''
+                str += `
+                var animate = function () {
+                        requestAnimationFrame( animate );
+                        renderer.render(scene, camera);
+                };
+                animate();
+                `;
+                '''
+        str += "        return str;\n\t}\n"
+
+
 
         # stream to XML
         str += "    toXMLNode(attrName) {\n"

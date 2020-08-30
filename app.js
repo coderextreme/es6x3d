@@ -46,3 +46,4 @@ let x3d = new X3D({
 
 // console.log(JSON.stringify(x3d, null, 2));
 console.log(x3d.toXMLNode());
+// console.log(x3d.toThreeJS());
