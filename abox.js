@@ -50,7 +50,7 @@ var X3D0 =  new X3D({
 		new ProtoDeclare({
 
 		  name : new SFString("anyShape"),
-		  protoInterface : (new SFNode(new ProtoInterface({
+		  ProtoInterface : (new SFNode(new ProtoInterface({
 
 		    field : (new MFNode([new field({
 
@@ -63,7 +63,7 @@ var X3D0 =  new X3D({
 			bboxSize : new SFVec3f([-1,-1,-1]),
 			geometry : (new SFNode(new Sphere({
 	})))})]))})]))}))),
-		  protoBody : (new SFNode(new ProtoBody({
+		  ProtoBody : (new SFNode(new ProtoBody({
 
 		    children : (new MFNode([new Transform({
 
@@ -77,7 +77,7 @@ var X3D0 =  new X3D({
 			  protoField : new SFString("myShape")})]))})))})]))})))}),
 		new ProtoDeclare({
 		  name : new SFString("one"),
-		  protoInterface : (new SFNode(new ProtoInterface({
+		  ProtoInterface : (new SFNode(new ProtoInterface({
 
 		    field : (new MFNode([new field({
 
@@ -90,7 +90,7 @@ var X3D0 =  new X3D({
 			bboxSize : new SFVec3f([-1,-1,-1]),
 			geometry : (new SFNode(new Cylinder({
 	})))})]))})]))}))),
-		  protoBody : (new SFNode(new ProtoBody({
+		  ProtoBody : (new SFNode(new ProtoBody({
 
 		    children : (new MFNode([new Transform({
 
