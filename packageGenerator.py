@@ -168,7 +168,7 @@ class ClassPrinter(object):
         spf = self.private(fld)
         str += "        if ("+spf+" === null) {\n"
         str += "        } else if (typeof "+spf+" !== 'undefined' && typeof "+spf+".toXMLNode === 'function') {\n"
-        str += "                str += "+spf+".toXMLNode('"+fld+"');\n"
+        str += "                str += ' '+"+spf+".toXMLNode('"+fld+"');\n"
         str += "        } else if (typeof "+spf+" === 'string') {\n"
         str += "            if (typeof "+spf+" !== 'undefined') {\n"
         str += "                str += ' "+fld+"=\"'+"+spf+"+'\"';\n"
@@ -511,7 +511,7 @@ class ClassPrinter(object):
             str += "            str += ' '+attrName+'='+'\"'+this.__value+'\"';\n"
             str += "        }\n"
         else:
-            str += "        str += '<"+self.name+"'\n"
+            str += "        str += '<"+self.name+"' \n"
 
             fields = self.node.iter("field")
             for field in fields:
