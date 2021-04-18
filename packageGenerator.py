@@ -511,7 +511,7 @@ class ClassPrinter(object):
             str += "            str += ' '+attrName+'='+'\"'+this.__value+'\"';\n"
             str += "        }\n"
         else:
-            str += "        str += '<"+self.name+"' \n"
+            str += "        str += '<"+self.name+"'\n"
 
             fields = self.node.iter("field")
             for field in fields:
