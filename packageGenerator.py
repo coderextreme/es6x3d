@@ -494,14 +494,28 @@ class ClassPrinter(object):
         # stream to XML
         str += "    toXMLNode(attrName) {\n"
         str += "        let str = ''\n"
-        if self.name.startswith("MF"):
+        if self.name.startswith("MFNode"):
             str += "        for (let i in this.__value) {\n"
             str += "            if (typeof this.__value[i].toXMLNode === 'function') {\n"
             str += "                str += this.__value[i].toXMLNode(attrName);\n"
             str += "            } else {\n"
-            str += "                str += this.__value;\n"
+            str += "                str += this.__value+' ';\n"
             str += "            }\n"
             str += "        }\n"
+        elif self.name.startswith("MF"):
+            str += "        str += ' '+attrName+'=';\n"
+            str += "        str += '\\\'';\n"
+            str += "        for (let i in this.__value) {\n"
+            str += "            if (typeof this.__value[i].toXMLNode === 'function') {\n"
+            str += "                str += this.__value[i].toXMLNode(attrName);\n"
+            str += "            } else {\n"
+            if self.name == "MFString":
+                str += "                str += '\"'+this.__value+'\" ';\n"
+            else:
+                str += "                str += this.__value+' ';\n"
+            str += "            }\n"
+            str += "        }\n"
+            str += "        str += '\\\'';\n"
         elif self.name.startswith("SFNode"):
             str += "            if (typeof this.__value.toXMLNode === 'function') {\n"
             str += "                str += this.__value.toXMLNode(attrName);\n"
