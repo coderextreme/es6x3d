@@ -40,7 +40,8 @@ class ClassPrinter(object):
 
         inhers = self.node.iter("Inheritance")
         for inher in inhers:
-            self.parents.append(inher.get('baseType'))
+            if inher.get('baseType') is not None:
+                self.parents.append(inher.get('baseType'))
 
         self.printed = False
 
@@ -575,7 +576,7 @@ code = "// Do not modify\n"
 #code += "let document = DOMImplementation.createDocument(null, 'X3D', docType);\n"
 #code += "document.insertBefore(xmldom.createProcessingInstruction('xml', 'version='1.0' encoding='UTF-8'), docType);\n"
 
-soup = xml.etree.ElementTree.parse(open("c:/x3d-code/www.web3d.org/specifications/X3dUnifiedObjectModel-4.0.xml")).getroot()
+soup = xml.etree.ElementTree.parse(open("/c/x3d-code/www.web3d.org/specifications/X3dUnifiedObjectModel-4.0.xml")).getroot()
 
 classes = {}
 

@@ -37,7 +37,8 @@ class ClassPrinter(object):
 
         inhers = self.node.iter("Inheritance")
         for inher in inhers:
-            self.parents.append(inher.get('baseType'))
+            if inher.get('baseType') is not None:
+                self.parents.append(inher.get('baseType'))
 
         self.printed = False
 
