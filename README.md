@@ -9,16 +9,24 @@ Run it like:
 python packageGenerator.py
 ```
 
-That python processs creates x3d.js and x3d.js is the ECMAScript 6 module
+That python processs creates x3d.mjs and x3d.mjs is the ECMAScript 6 module
 
 One sample app below.
 
 Run it like:
 ```
-node app.js
+node examples/app.js
 
 ```
 Currently XML generation is under test.  Contributions welcome.
+
+To run a full build an test, run
+
+```
+ant
+```
+
+This requires ant, python3, npm.cmd, and node (or nodejs)
 
 Do not modify x3d.js
 ===============================================================================

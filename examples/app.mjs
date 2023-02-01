@@ -1,9 +1,9 @@
 "use strict"
 
-import fs from 'fs'
+import * as fs from 'fs';
 
-import { meta, head, Scene, X3D,  Transform, Group, Material, Shape, Box, Appearance } from './x3d.js';
-import { MFNode, SFColor, SFVec3f, SFString, SFNode, SFRotation } from './x3d.js';
+import { meta, head, Scene, X3D,  Transform, Group, Material, Shape, Box, Appearance } from '../x3d.mjs';
+import { MFNode, SFColor, SFVec3f, SFString, SFNode, SFRotation } from '../x3d.mjs';
 
 
 let x3d = new X3D({

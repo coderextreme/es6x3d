@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Java JSON Schema validation" default="default" basedir=".">
+    <description>Builds, tests, and runs Validate for JSON validation.</description>
+    <property name="fork"         value="true"/>
+    <!--
+    <property name="examples"     value="/x3d-code/www.web3d.org/x3d/content/examples"/>
+    -->
+    <property name="examples"     value="examples"/>
+    <property name="classpath"     value="C:/Users/john/pythonSAI/X3DJSAIL.4.0.full.jar;."/>
+
+<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+  <classpath>
+    <pathelement location="C:/apache-ant-1.10.12-bin/apache-ant-1.10.12/lib/ant-contrib-1.0b3.jar"/>
+  </classpath>
+</taskdef>
+
+    <target name="default" description="build and test">
+	<echo message="Build modules:"/>
+	<exec executable="C:/Program Files/nodejs/npm.cmd">
+		<arg value="install"/>
+	</exec>
+	<exec executable="python3">
+		<arg value="packageGenerator.py"/>
+	</exec>
+	<echo message="Run:"/>
+	<antcall target="run"/>
+    </target>
+	<target name="run">
+	  <foreach target="runone" param="theFile">
+	    <fileset dir="${examples}" casesensitive="yes">
+		    <include name="**/*.mjs"/>
+		    <exclude name="**/x3d.mjs"/>
+		    <exclude name="**/sax.js"/>
+		    <exclude name="**/classes.js"/>
+		    <exclude name="**/fromNodeX3d.js"/>
+	    </fileset>
+	  </foreach>
+	</target>
+
+	<target name="runone">
+		<exec executable="node">
+			<arg value="${theFile}"/>
+		</exec>
+	</target>
+
+	
+</project>
+
+

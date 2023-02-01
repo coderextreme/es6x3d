@@ -562,6 +562,6 @@ for cn in cns:
 for k,v in classes.items():
     code += v.printClass()
 
-f = open("x3d.js", "w")
+f = open("x3d.mjs", "w")
 f.write(code)
 f.close()

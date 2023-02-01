@@ -1,10 +1,10 @@
 "use strict"
 
-import fs from 'fs'
+import * as fs from 'fs';
 
-import { X3D } from './fromNodeX3d.js';
-import { head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance } from './fromNodeX3d.js';
-import { MFNode, SFString, SFColor, SFVec3f, SFRotation } from './fromNodeX3d.js';
+import { X3D } from '../fromNodeX3d.js';
+import { head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance } from '../fromNodeX3d.js';
+import { MFNode, SFString, SFColor, SFVec3f, SFRotation } from '../fromNodeX3d.js';
 
 var x3d = new X3D({
 	version : "4.0",
@@ -51,7 +51,7 @@ var x3d = new X3D({
 console.log("Converted to XML", x3d.toXMLNode());
 // console.log("Expanded", x3d.deepExpand().toXMLNode());
 
-var data = fs.readFileSync('Box.json');
+var data = fs.readFileSync('examples/Box.json');
 var json = JSON.parse(data.toString());
 var x = new X3D(json);
 x.fromJSON(json["X3D"]);

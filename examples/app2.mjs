@@ -1,7 +1,6 @@
 "use strict"
 
-import { X3D, head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance,
-MFNode, SFBool, SFNode, SFString, SFColor, SFVec3f, SFRotation } from './x3d.js';
+import { X3D, head, meta, Scene, Transform, Group, Material, Shape, Box, Appearance, MFNode, SFBool, SFNode, SFString, SFColor, SFVec3f, SFRotation } from '../x3d.mjs';
 
 let x3d = new X3D({
 	version: new SFString("4.0"),
