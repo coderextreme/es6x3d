@@ -28,7 +28,7 @@ ant
 
 This requires ant, python3, npm.cmd, and node (or nodejs)
 
-Do not modify x3d.js
+Do not modify x3d.mjs
 ===============================================================================
 Current implementation:
 
