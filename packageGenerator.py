@@ -1,5 +1,6 @@
 import xml.etree.ElementTree
 import re
+import sys
 
 class alone_field(object):
     def __init__(self, name, type):
@@ -546,7 +547,7 @@ class ClassPrinter(object):
         return str
 code = "// Do not modify\n"
 
-soup = xml.etree.ElementTree.parse(open("C:/x3d-code/www.web3d.org/specifications/X3dUnifiedObjectModel-4.0.xml")).getroot()
+soup = xml.etree.ElementTree.parse(open(sys.argv[1])).getroot()
 
 classes = {}
 

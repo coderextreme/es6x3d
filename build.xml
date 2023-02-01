@@ -6,7 +6,8 @@
     <property name="examples"     value="/x3d-code/www.web3d.org/x3d/content/examples"/>
     -->
     <property name="examples"     value="examples"/>
-    <property name="classpath"     value="C:/Users/john/pythonSAI/X3DJSAIL.4.0.full.jar;."/>
+    <property name="x3duom"       value="C:/x3d-code/www.web3d.org/specifications/X3dUnifiedObjectModel-4.0.xml"/>
+    <property name="classpath"    value="C:/Users/john/pythonSAI/X3DJSAIL.4.0.full.jar;."/>
 
 <taskdef resource="net/sf/antcontrib/antcontrib.properties">
   <classpath>
@@ -21,6 +22,7 @@
 	</exec>
 	<exec executable="python3">
 		<arg value="packageGenerator.py"/>
+		<arg value="${x3duom}"/>
 	</exec>
 	<echo message="Run:"/>
 	<antcall target="run"/>
