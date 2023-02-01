@@ -37,7 +37,8 @@ class ClassPrinter(object):
 
         inhers = self.node.iter("Inheritance")
         for inher in inhers:
-            self.parents.append(inher.get('baseType'))
+            if inher.get('baseType') is not None:
+                self.parents.append(inher.get('baseType'))
 
         self.printed = False
 
@@ -168,7 +169,7 @@ class ClassPrinter(object):
         spf = self.private(fld)
         str += "        if ("+spf+" === null) {\n"
         str += "        } else if (typeof "+spf+" !== 'undefined' && typeof "+spf+".toXMLNode === 'function') {\n"
-        str += "                str += "+spf+".toXMLNode('"+fld+"');\n"
+        str += "                str += ' '+"+spf+".toXMLNode('"+fld+"');\n"
         str += "        } else if (typeof "+spf+" === 'string') {\n"
         str += "            if (typeof "+spf+" !== 'undefined') {\n"
         str += "                str += ' "+fld+"=\"'+"+spf+"+'\"';\n"
@@ -369,11 +370,7 @@ class ClassPrinter(object):
             except:
                 pass
         str += 'export class ' + self.name + self.metaInfo
-        try:
-            strjoin = ", ".join(self.parents)
-        except:
-            strjoin = ""
-
+        strjoin = ", ".join(self.parents)
         if strjoin != "" and not strjoin.startswith("xs:") and strjoin != "SFString":
             str += " extends "+strjoin
         elif self.name.startswith("MF"):
@@ -498,14 +495,28 @@ class ClassPrinter(object):
         # stream to XML
         str += "    toXMLNode(attrName) {\n"
         str += "        let str = ''\n"
-        if self.name.startswith("MF"):
+        if self.name.startswith("MFNode"):
             str += "        for (let i in this.__value) {\n"
             str += "            if (typeof this.__value[i].toXMLNode === 'function') {\n"
             str += "                str += this.__value[i].toXMLNode(attrName);\n"
             str += "            } else {\n"
-            str += "                str += this.__value;\n"
+            str += "                str += this.__value+' ';\n"
             str += "            }\n"
             str += "        }\n"
+        elif self.name.startswith("MF"):
+            str += "        str += ' '+attrName+'=';\n"
+            str += "        str += '\\\'';\n"
+            str += "        for (let i in this.__value) {\n"
+            str += "            if (typeof this.__value[i].toXMLNode === 'function') {\n"
+            str += "                str += this.__value[i].toXMLNode(attrName);\n"
+            str += "            } else {\n"
+            if self.name == "MFString":
+                str += "                str += '\"'+this.__value+'\" ';\n"
+            else:
+                str += "                str += this.__value+' ';\n"
+            str += "            }\n"
+            str += "        }\n"
+            str += "        str += '\\\'';\n"
         elif self.name.startswith("SFNode"):
             str += "            if (typeof this.__value.toXMLNode === 'function') {\n"
             str += "                str += this.__value.toXMLNode(attrName);\n"
@@ -535,7 +546,7 @@ class ClassPrinter(object):
         return str
 code = "// Do not modify\n"
 
-soup = xml.etree.ElementTree.parse(open("c:/x3d-code/www.web3d.org/specifications/X3dUnifiedObjectModel-4.0.xml")).getroot()
+soup = xml.etree.ElementTree.parse(open("C:/x3d-code/www.web3d.org/specifications/X3dUnifiedObjectModel-4.0.xml")).getroot()
 
 classes = {}
 
@@ -562,6 +573,6 @@ for cn in cns:
 for k,v in classes.items():
     code += v.printClass()
 
-f = open("x3d.mjs", "w")
+f = open("x3d.js", "w")
 f.write(code)
 f.close()
