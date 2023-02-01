@@ -369,7 +369,11 @@ class ClassPrinter(object):
             except:
                 pass
         str += 'export class ' + self.name + self.metaInfo
-        strjoin = ", ".join(self.parents)
+        try:
+            strjoin = ", ".join(self.parents)
+        except:
+            strjoin = ""
+
         if strjoin != "" and not strjoin.startswith("xs:") and strjoin != "SFString":
             str += " extends "+strjoin
         elif self.name.startswith("MF"):
