@@ -2,12 +2,12 @@
 <project name="Build and test x3d.mjs" default="default" basedir=".">
     <description>Builds, tests, and runs Validate for JSON validation.</description>
     <property name="fork"         value="true"/>
-    <property name="examples"     value="/x3d-code/www.web3d.org/x3d/content/examples"/>
     <!--
-    <property name="examples"     value="examples"/>
-    -->
-    <property name="x3duom"       value="C:/x3d-code/www.web3d.org/specifications/X3dUnifiedObjectModel-4.0.xml"/>
+    <property name="examples"     value="/x3d-code/www.web3d.org/x3d/content/examples"/>
     <property name="classpath"    value="C:/Users/john/pythonSAI/X3DJSAIL.4.0.full.jar;."/>
+    -->
+    <property name="examples"     value="examples"/>
+    <property name="x3duom"       value="C:/x3d-code/www.web3d.org/specifications/X3dUnifiedObjectModel-4.0.xml"/>
     <property name="npm"    value="C:/Program Files/nodejs/npm.cmd"/>
     <property name="node"    value="C:/Program Files/nodejs/node.exe"/>
     <property name="python"    value="python3"/>
