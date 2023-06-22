@@ -27,6 +27,10 @@
 		<arg value="packageGenerator.py"/>
 		<arg value="${x3duom}"/>
 	</exec>
+	<exec executable="${python}">
+		<arg value="NodePackageGenerator.py"/>
+		<arg value="${x3duom}"/>
+	</exec>
 	<echo message="Run:"/>
 	<antcall target="run"/>
     </target>
